@@ -22,16 +22,17 @@ class InteractiveRecord
     column_names.compact
   end
 
+  self.column_names.each do |col_name|
+    attr_accessor col_name.to_sym
+  end
+
+  self.class.column_names.delete_if {|col| col == "id"}
+  
   def initialize(options={})
   options.each do |property, value|
     self.send("#{property}=", value)
     end
   end
-
-  self.column_names.each do |col_name|
-    attr_accessor col_name.to_sym
-  end
-
 
   def table_name_for_insert
     self.class.table_name
